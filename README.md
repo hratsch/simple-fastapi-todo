@@ -1,4 +1,3 @@
-```
 # Todo App – FastAPI + SvelteKit
 
 A **full-stack Todo app** with:
@@ -137,4 +136,3 @@ MIT © Hugh Ratsch — Feel free to fork and improve!
 - `uv` for Python dependency management
 
 ---
-```
