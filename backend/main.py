@@ -8,15 +8,19 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080"],  # Svelte dev port 
+    allow_origins=["http://localhost:5173"],  # Svelte dev port 
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
 
-class Todo(BaseModel):
+class TodoCreate(BaseModel):
     title: str
     completed: bool = False
+
+class TodoUpdate(BaseModel):
+    title: str | None = None
+    completed: bool | None = None
 
 TODOS_FILE = "todos.json"
 
@@ -44,10 +48,11 @@ def get_todos():
     return todos
 
 @app.post("/todos")
-def create_todo(todo: Todo):
+def create_todo(todo: TodoCreate):
     global todos
+    new_id = max([t["id"] for t in todos], default=0) + 1
     new_todo = {
-        "id": len(todos) + 1,
+        "id": new_id,
         "title": todo.title,
         "completed": todo.completed
     }
@@ -66,15 +71,14 @@ def delete_todo(id: int):
     raise HTTPException(status_code=404, detail="Todo not found")
     
 @app.put("/todos/{id}")
-def update_todo(id: int, updated_todo: Todo):
+def update_todo(id: int, updated_todo: TodoUpdate):
     global todos
     for i, todo in enumerate(todos):
         if todo["id"] == id:
-            todos[i] = {
-                "id": id,
-                "title": updated_todo.title,
-                "completed": updated_todo.completed
-            }
+            if updated_todo.title is not None:
+                todos[i]["title"] = updated_todo.title
+            if updated_todo.completed is not None:
+                todos[i]["completed"] = updated_todo.completed
             save_todos (todos)
             return todos[i]
     raise HTTPException(status_code=404, detail="Todo not found")
