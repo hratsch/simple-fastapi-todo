@@ -116,7 +116,7 @@ Todos are saved to `backend/todos.json`.
 
 ```bash
 # Start both (in separate terminals)
-cd backend && uuv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
+cd backend && uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
 cd frontend && npm run dev
 ```
 
