@@ -133,6 +133,6 @@ MIT © Hugh Ratsch — Feel free to fork and improve!
 - [FastAPI](https://fastapi.tiangolo.com)
 - [SvelteKit](https://kit.svelte.dev)
 - [Vite](https://vitejs.dev)
-- `uv` for Python dependency management
+- [uv](https://docs.astral.sh/uv/) for Python dependency management
 
 ---
